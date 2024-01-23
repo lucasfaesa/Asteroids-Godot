@@ -1,5 +1,11 @@
 extends RigidBody2D
 
+signal lives_changed
+signal dead
+
+var reset_pos = false
+var lives = 0 : set = set_lives
+
 @export var engine_power = 500
 @export var spin_power = 8000
 @export var bullet_scene : PackedScene
@@ -44,17 +50,28 @@ func _integrate_forces(physics_state: PhysicsDirectBodyState2D) -> void:
 	xform.origin.x = wrapf(xform.origin.x, 0, screensize.x)
 	xform.origin.y = wrapf(xform.origin.y, 0, screensize.y)
 	physics_state.transform = xform
+	
+	if reset_pos:
+		physics_state.transform.origin = screensize / 2
+		reset_pos = false
 
 func change_state(new_state : StateEnum):
 	match new_state:
 		StateEnum.INIT:
 			collision_shape.set_deferred("disabled", true)
+			$Sprite2D.modulate.a = 0.5
 		StateEnum.ALIVE:
 			collision_shape.set_deferred("disabled", false)
+			$Sprite2D.modulate.a = 1.0
 		StateEnum.INVULNERABLE:
 			collision_shape.set_deferred("disabled", true)
+			$Sprite2D.modulate.a = 0.5
+			$InvulnerabilityTimer.start()
 		StateEnum.DEAD:
 			collision_shape.set_deferred("disabled", true)
+			$Sprite2D.hide()
+			linear_velocity = Vector2.ZERO
+			dead.emit()
 
 	state = new_state
 
@@ -83,3 +100,21 @@ func shoot():
 
 func _on_gun_cooldown_timeout() -> void:
 	can_shoot = true
+
+func set_lives(value):
+	lives = value
+	lives_changed.emit(lives)
+	if lives <= 0:
+		change_state(StateEnum.DEAD)
+	else:
+		change_state(StateEnum.INVULNERABLE)
+
+func reset():
+	reset_pos = true
+	$Sprite2D.show()
+	lives = 3
+	change_state(StateEnum.ALIVE)
+
+
+func _on_invulnerability_timer_timeout() -> void:
+	change_state(StateEnum.ALIVE)
