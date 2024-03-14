@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cf5gtraog26d0"]
 
-[ext_resource type="Script" path="res://HUD.gd" id="1_a2nh0"]
+[ext_resource type="Script" path="res://Hud/HUD.gd" id="1_a2nh0"]
 [ext_resource type="FontFile" uid="uid://dtyoeb3uu3x5u" path="res://assets/kenvector_future_thin.ttf" id="2_7n5b0"]
 [ext_resource type="Texture2D" uid="uid://6nv3ionmvxmq" path="res://assets/player_small.png" id="3_66aey"]
 [ext_resource type="Texture2D" uid="uid://dson3f70d2i7j" path="res://assets/play_button.png" id="4_ngrhv"]

@@ -22,6 +22,7 @@ var state : StateEnum = StateEnum.INIT
 var collision_shape : CollisionShape2D
 var gun_cooldown : Timer
 var muzzle : Marker2D
+var animationPlayer : AnimationPlayer
 
 var screensize : Vector2 = Vector2.ZERO
 
@@ -32,6 +33,8 @@ func _ready() -> void:
 	collision_shape = $CollisionShape2D
 	gun_cooldown = $GunCooldown
 	muzzle = $Muzzle
+	animationPlayer = $Explosion/AnimationPlayer
+	animationPlayer.animation_finished.connect(explosion_animation_finished)
 	
 	gun_cooldown.wait_time = fire_rate
 	
@@ -118,3 +121,32 @@ func reset():
 
 func _on_invulnerability_timer_timeout() -> void:
 	change_state(StateEnum.ALIVE)
+
+
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("rocks"):
+		body.explode()
+		lives -= 1
+		explode()
+
+func explode():
+	$Explosion.show()
+	animationPlayer.play("explosion")
+
+func explosion_animation_finished(anim_name : String):
+	$Explosion.hide()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

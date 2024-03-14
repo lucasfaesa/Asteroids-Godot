@@ -5,8 +5,8 @@ signal start_game
 @onready var lives_counter : Array[Node] = $Control/MarginContainer/HBoxContainer/LivesCounter.get_children()
 @onready var score_label : Label = $Control/MarginContainer/HBoxContainer/ScoreLabel
 @onready var message : Label = $VBoxContainer/Message
-@onready var start_button : Label = $VBoxContainer/StartButton
-@onready var timer : Timer = $Control/Timer
+@onready var start_button : TextureButton = $VBoxContainer/StartButton
+@onready var timer : Timer = $Timer
 
 func show_message(text):
 	message.text = text

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://main/main.gd" id="1_f0gtk"]
 [ext_resource type="PackedScene" uid="uid://coct2l80djjki" path="res://rock/rock.tscn" id="2_w5aed"]
 [ext_resource type="PackedScene" uid="uid://u2ljmd77ysly" path="res://player/player.tscn" id="2_xecqm"]
-[ext_resource type="PackedScene" uid="uid://cf5gtraog26d0" path="res://hud.tscn" id="5_k0loh"]
+[ext_resource type="PackedScene" uid="uid://cf5gtraog26d0" path="res://Hud/hud.tscn" id="5_k0loh"]
 
 [sub_resource type="Curve2D" id="Curve2D_5ip0a"]
 _data = {
@@ -13,6 +13,7 @@ _data = {
 point_count = 5
 
 [node name="Main" type="Node"]
+process_mode = 3
 script = ExtResource("1_f0gtk")
 rock_scene = ExtResource("2_w5aed")
 
@@ -30,5 +31,6 @@ position = Vector2(8, 8)
 
 [node name="HUD" parent="." instance=ExtResource("5_k0loh")]
 
+[connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
