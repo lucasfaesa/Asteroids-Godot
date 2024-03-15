@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ccku8i4nw2ltx"]
+[gd_scene load_steps=8 format=3 uid="uid://ccku8i4nw2ltx"]
 
 [ext_resource type="Texture2D" uid="uid://tb664t8mfv3v" path="res://assets/space_background.png" id="1_7avt6"]
 [ext_resource type="Script" path="res://main/main.gd" id="1_f0gtk"]
 [ext_resource type="PackedScene" uid="uid://coct2l80djjki" path="res://rock/rock.tscn" id="2_w5aed"]
 [ext_resource type="PackedScene" uid="uid://u2ljmd77ysly" path="res://player/player.tscn" id="2_xecqm"]
+[ext_resource type="PackedScene" uid="uid://cfpfd8jnybhx4" path="res://enemy/Enemy.tscn" id="3_oggx1"]
 [ext_resource type="PackedScene" uid="uid://cf5gtraog26d0" path="res://Hud/hud.tscn" id="5_k0loh"]
 
 [sub_resource type="Curve2D" id="Curve2D_5ip0a"]
@@ -16,6 +17,7 @@ point_count = 5
 process_mode = 3
 script = ExtResource("1_f0gtk")
 rock_scene = ExtResource("2_w5aed")
+enemy_scene = ExtResource("3_oggx1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(599, 276)
@@ -31,6 +33,10 @@ position = Vector2(8, 8)
 
 [node name="HUD" parent="." instance=ExtResource("5_k0loh")]
 
+[node name="EnemyTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="dead" from="Player" to="." method="game_over"]
 [connection signal="lives_changed" from="Player" to="HUD" method="update_lives"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]

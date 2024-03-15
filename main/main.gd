@@ -1,15 +1,16 @@
 extends Node
 
 @export var rock_scene : PackedScene
+@export var enemy_scene : PackedScene
 
-var screensize = Vector2.ZERO
+var screensize: Vector2 = Vector2.ZERO
 
 var rock_path : Path2D
 var rock_spawn : PathFollow2D
 
-var level = 0
-var score = 0
-var playing = false
+var level: int    = 0
+var score: int    = 0
+var playing: bool = false
 
 @onready var HUD : CanvasLayer = $HUD
 @onready var player : RigidBody2D = $Player
@@ -34,7 +35,7 @@ func new_game():
 	HUD.update_score(score)
 	HUD.show_message("Get Ready!")
 	player.reset()
-	await $HUD/Control/Timer
+	await $HUD/Timer
 	playing = true
 
 func new_level():
@@ -42,6 +43,7 @@ func new_level():
 	HUD.show_message("Wave %s" %level)
 	for i in level:
 		spawn_rock(3)
+	$EnemyTimer.start(randf_range(5,10))
 
 func spawn_rock(size, pos=null, vel=null):
 	if pos == null:
@@ -83,14 +85,9 @@ func _input(event):
 			message.text = ""
 			message.hide()
 
+func _on_enemy_timer_timeout():
+	var e = enemy_scene.instantiate()
+	add_child(e)
+	e.target = $Player
+	$EnemyTimer.start(randf_range(20,40))
 
-
-
-
-
-
-
-
-
-
-	
