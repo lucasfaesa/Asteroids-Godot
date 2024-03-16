@@ -28,6 +28,7 @@ func _process(delta: float) -> void:
 		new_level()
 
 func new_game():
+	$Music.play()
 	#remove any old rocks from the previous game
 	get_tree().call_group("rocks", "queue_free")
 	level = 0
@@ -39,6 +40,7 @@ func new_game():
 	playing = true
 
 func new_level():
+	$LevelUpSound.play()
 	level += 1
 	HUD.show_message("Wave %s" %level)
 	for i in level:
@@ -60,6 +62,7 @@ func spawn_rock(size, pos=null, vel=null):
 	r.exploded.connect(self._on_rock_exploded)
 	
 func _on_rock_exploded(size, radius, pos, vel):
+	$ExplosionSound.play()
 	if size <= 1:
 		return
 	for offset in [-1,1]:
@@ -69,6 +72,7 @@ func _on_rock_exploded(size, radius, pos, vel):
 		spawn_rock(size - 1, newpos, newvel)
 
 func game_over():
+	$Music.stop()
 	playing = false
 	HUD.game_over()
 

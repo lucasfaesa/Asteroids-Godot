@@ -1,10 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://cf5gtraog26d0"]
+[gd_scene load_steps=13 format=3 uid="uid://cf5gtraog26d0"]
 
 [ext_resource type="Script" path="res://Hud/HUD.gd" id="1_a2nh0"]
 [ext_resource type="FontFile" uid="uid://dtyoeb3uu3x5u" path="res://assets/kenvector_future_thin.ttf" id="2_7n5b0"]
+[ext_resource type="Texture2D" uid="uid://dxvcudhii0xsc" path="res://assets/bar_green_200.png" id="2_qngy0"]
 [ext_resource type="Texture2D" uid="uid://6nv3ionmvxmq" path="res://assets/player_small.png" id="3_66aey"]
+[ext_resource type="Texture2D" uid="uid://bq5onkneh43ys" path="res://assets/bar_yellow_200.png" id="3_ur2cj"]
+[ext_resource type="Texture2D" uid="uid://c0byvsjcwolr" path="res://assets/bar_red_200.png" id="4_bt0wf"]
 [ext_resource type="Texture2D" uid="uid://dson3f70d2i7j" path="res://assets/play_button.png" id="4_ngrhv"]
 [ext_resource type="Texture2D" uid="uid://ok4jmjn6wnrr" path="res://assets/play_button_h.png" id="5_bhbbc"]
+[ext_resource type="Texture2D" uid="uid://m0k0tgve4ycc" path="res://assets/shield_gold.png" id="6_8jki8"]
+[ext_resource type="Texture2D" uid="uid://dvaotyd41rdck" path="res://assets/bar_glass_200.png" id="7_yde2x"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p3fyk"]
 font = ExtResource("2_7n5b0")
@@ -16,6 +21,9 @@ font_size = 64
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_a2nh0")
+green_shield_texture = ExtResource("2_qngy0")
+yellow_shield_texture = ExtResource("3_ur2cj")
+red_shield_texture = ExtResource("4_bt0wf")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -42,6 +50,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 label_settings = SubResource("LabelSettings_p3fyk")
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_8jki8")
+stretch_mode = 3
+
+[node name="ShieldBar" type="TextureProgressBar" parent="Control/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+value = 0.75
+texture_over = ExtResource("7_yde2x")
+texture_progress = ExtResource("2_qngy0")
 
 [node name="LivesCounter" type="HBoxContainer" parent="Control/MarginContainer/HBoxContainer"]
 layout_mode = 2
